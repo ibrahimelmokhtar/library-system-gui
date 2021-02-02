@@ -22,7 +22,7 @@ class Book():
         self.cover_type = cover_type
 
     def __str__(self):
-        """ Print th Book object to terminal.
+        """ Print the Book object to terminal.
         """
 
         output = """

@@ -1,5 +1,5 @@
 from Book import *
+from Member import *
 
-b1 = Book("hello", "12345", "Ibrahim", datetime.datetime(2020, 5, 17).date(),
-          "Tahrir", 100, "soft")
-print(b1)
+m1 = Member("14p8195", "Ibrahim", "Cairo, Egypt")
+print(m1)
