@@ -1,0 +1,75 @@
+{
+  "members": [
+    {
+      "id": "14p8195",
+      "name": "Ibrahim El-Mokhtar",
+      "address": "Cairo, Egypt"
+    },
+    {
+      "id": "14p9090",
+      "name": "Mohamed Adel",
+      "address": "Cairo, Egypt"
+    },
+    {
+      "id": "14p9702",
+      "name": "Amir Eid",
+      "address": "Cairo, Egypt"
+    }
+  ],
+  "books": [
+    {
+      "name": "The Hunger Games",
+      "isbn": "0439023483",
+      "author": "Suzanne Collins",
+      "publication_date": "2008-09-14",
+      "publisher": "Scholastic Press",
+      "pages_number": 374,
+      "cover_type": "Hardcover"
+    },
+    {
+      "name": "Harry Potter and the Order of the Phoenix",
+      "isbn": "0439358078",
+      "author": "J.K. Rowling",
+      "publication_date": "2003-06-21",
+      "publisher": "Scholastic Inc.",
+      "pages_number": 870,
+      "cover_type": "Paperback"
+    },
+    {
+      "name": "Animal Farm",
+      "isbn": "0451526341",
+      "author": "George Orwell",
+      "publication_date": "1945-08-17",
+      "publisher": "Signet Classics",
+      "pages_number": 141,
+      "cover_type": "Mass Market Paperback"
+    },
+    {
+      "name": "The Da Vinci Code",
+      "isbn": "None",
+      "author": "Dan Brown",
+      "publication_date": "2003-03-18",
+      "publisher": "Anchor",
+      "pages_number": 489,
+      "cover_type": "Paperback"
+    }
+  ],
+  "borrowers": [
+    {
+      "id": "14p9090",
+      "name": "Mohamed Adel",
+      "address": "Cairo, Egypt",
+      "isbn": "0439023483",
+      "borrow_date": "2020-10-14",
+      "return_date": "2020-11-07"
+    },
+    {
+      "id": "14p8195",
+      "name": "Ibrahim El-Mokhtar",
+      "address": "Cairo, Egypt",
+      "isbn": "0439358078",
+      "borrow_date": "2021-01-10",
+      "return_date": "2021-02-12"
+    }
+  ]
+}
