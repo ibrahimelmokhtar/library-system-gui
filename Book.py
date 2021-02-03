@@ -55,17 +55,17 @@ class Book():
     def setCoverType(self, cover_type):
         self.cover_type = cover_type
 
-    def getName(self, name):
+    def getName(self):
         return self.name
-    def getISBN(self, isbn):
+    def getISBN(self):
         return self.isbn
-    def getAuthor(self, author):
+    def getAuthor(self):
         return self.author
-    def getDate(self, publication_date):
+    def getDate(self):
         return self.publication_date
-    def getPublisher(self, publisher):
+    def getPublisher(self):
         return self.publisher
-    def getPagesNumber(self, pages_number):
+    def getPagesNumber(self):
         return self.pages_number
-    def getCoverType(self, cover_type):
+    def getCoverType(self):
         return self.cover_type
