@@ -1,7 +1,8 @@
 import datetime
 
 class Book():
-    def __init__(self, name, isbn, author, publication_date, publisher, pages_number, cover_type):
+    def __init__(self, name="", isbn="", author="", publication_date="", publisher="",
+                 pages_number="", cover_type=""):
         """ Create a new book.
 
         Args:
@@ -25,8 +26,7 @@ class Book():
         """ Print the Book object to terminal.
         """
 
-        output = """
-        Book's Info.
+        output = """\tBook's Info.
         \tName\t\t: {}
         \tISBN\t\t: {}
         \tAuthor\t\t: {}

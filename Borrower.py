@@ -1,7 +1,7 @@
 from Member import *
 
 class Borrower(Member):
-    def __init__(self, id, name, address, isbn, borrow_date, return_date):
+    def __init__(self, id="", name="", address="", isbn="", borrow_date="", return_date=""):
         """Create a new borrower.
 
         Args:
@@ -21,8 +21,7 @@ class Borrower(Member):
         """ Print the Borrower object to the terminal.
         """
 
-        output = """
-        Borrower's Info.
+        output = """\tBorrower's Info.
         \tID\t\t: {}
         \tName\t\t: {}
         \tAddress\t\t: {}

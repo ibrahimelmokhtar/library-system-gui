@@ -1,5 +1,5 @@
 class Member():
-    def __init__(self, id, name, address):
+    def __init__(self, id="", name="", address=""):
         """Create a new member.
 
         Args:
@@ -15,8 +15,7 @@ class Member():
         """ Print the Member object to the terminal.
         """
 
-        output = """
-        Member's Info.
+        output = """\tMember's Info.
         \tID\t: {}
         \tName\t: {}
         \tAddress\t: {}
