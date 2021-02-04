@@ -36,19 +36,19 @@ addObject(Borrower("14p8195", "Ibrahim El-Mokhtar", "Cairo, Egypt", "0439358078"
 # search objects:
 
 # search member by ID:  (exists)
-person = searchPerson("14p8195")
+person = searchPerson("14p8195", "members")
 # search member by ID:  (does NOT exist)
-person = searchPerson("14p0000")
+person = searchPerson("14p0000", "members")
 
 # search borrower by ID:    (exists)
-person = searchPerson("14p9090")
+person = searchPerson("14p9090", "borrowers")
 # search borrower by ID:    (does NOT exist)
-person = searchPerson("14p9702")
+person = searchPerson("14p9702", "borrowers")
 
 # search member by name:    (exists)
-person = searchPerson("Ibrahim El-Mokhtar", isName=True)
+person = searchPerson("Ibrahim El-Mokhtar", "members", isName=True)
 # search borrower by name:  (does NOT exist)
-person = searchPerson("Amir Eid", isName=True)
+person = searchPerson("Amir Eid", "borrowers", isName=True)
 
 # search book by name:  (exists)
 searchBook("The Hunger Games", isName=True)
@@ -60,6 +60,7 @@ searchBook("0451526341")
 searchBook("1400096898")
 """
 
+"""
 # display full lists:
 print("Members' list:")
 count = displayFullList(type(Member()))
@@ -72,3 +73,14 @@ print("Total: {} items\n\n".format(count))
 print("Borrowers' list:")
 count = displayFullList(type(Borrower()))
 print("Total: {} items\n\n".format(count))
+"""
+
+# display specific item:
+displayItem("14p8195", type(Member()))      # exists
+displayItem("14p0000", type(Member()))      # does NOT exist
+
+displayItem("Amir Eid", type(Borrower()), isName=True)  # does NOT exist
+displayItem("14p9090", type(Borrower()))    # exists
+
+displayItem("The Hunger Games", type(Book()), isName=True)  # exists
+displayItem("1400096898", type(Book()))     # does NOT exist

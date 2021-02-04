@@ -97,7 +97,7 @@ def addObject(newObject):
     # save into JSON file:
     saveIntoFile(data)
 
-def searchPerson(name_or_id, isName=False):
+def searchPerson(name_or_id, personType, isName=False):
     """Search members or borrowers lists using name or ID to see if specific person exists or not.
 
     Args:
@@ -110,13 +110,9 @@ def searchPerson(name_or_id, isName=False):
     # check JSON file existence:
     data = checkFileExistence()
 
-    personType = int(input("""search members or borrowers?
-        1. members\t2.borrowers\tchoose a number: """))
-    if personType == 1:
-        personType = "members"
+    if personType == "members":
         convertTo = type(Member())
     else:
-        personType = "borrowers"
         convertTo = type(Borrower())
 
     searchField = "id"
@@ -127,7 +123,6 @@ def searchPerson(name_or_id, isName=False):
         if person[searchField] == name_or_id:
             print("{} exists.".format(personType[:-1]))
             person = convertDictIntoObject(person, convertTo)
-            print(person)
             return person
     print("{} does NOT exist.\n".format(personType[:-1]))
 
@@ -152,7 +147,6 @@ def searchBook(name_or_isbn, isName=False):
         if book[searchField] == name_or_isbn:
             print("Book exists.")
             book = convertDictIntoObject(book, type(Book()))
-            print(book)
             return book
     print("Book does NOT exist.\n")
 
@@ -212,3 +206,17 @@ def displayFullList(listType):
         print(objectReturned)
         count += 1
     return count
+
+def displayItem(searchKeyword, itemType, isName=False):
+    item = ""
+    if itemType == type(Member()):
+        item = searchPerson(searchKeyword, "members", isName)
+    elif itemType == type(Borrower()):
+        item = searchPerson(searchKeyword, "borrowers", isName)
+    elif itemType == type(Book()):
+        item = searchBook(searchKeyword, isName)
+    else:
+        print("Invalid Object!\n")
+
+    if item != None:
+        print(item)
