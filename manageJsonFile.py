@@ -114,8 +114,10 @@ def searchPerson(name_or_id, isName=False):
         1. members\t2.borrowers\tchoose a number: """))
     if personType == 1:
         personType = "members"
+        convertTo = type(Member())
     else:
         personType = "borrowers"
+        convertTo = type(Borrower())
 
     searchField = "id"
     if isName:
@@ -124,7 +126,8 @@ def searchPerson(name_or_id, isName=False):
     for person in data[personType]:
         if person[searchField] == name_or_id:
             print("{} exists.".format(personType[:-1]))
-            print("{}\n".format(json.dumps(person, indent=2)))
+            person = convertDictIntoObject(person, convertTo)
+            print(person)
             return person
     print("{} does NOT exist.\n".format(personType[:-1]))
 
@@ -148,6 +151,30 @@ def searchBook(name_or_isbn, isName=False):
     for book in data["books"]:
         if book[searchField] == name_or_isbn:
             print("Book exists.")
-            print("{}\n".format(json.dumps(book, indent=2)))
+            book = convertDictIntoObject(book, type(Book()))
+            print(book)
             return book
     print("Book does NOT exist.\n")
+
+def convertDictIntoObject(jsonDict, objectType):
+    """Convert dict json format into its corresponding object type.
+
+    Args:
+        jsonDict (dict): json object to be converted.
+        objectType (object): desired object type (Member, Book, or Borrower).
+
+    Returns:
+        object: the result of the conversion.
+    """
+    if objectType == type(Member()):
+        objectReturned = Member(jsonDict["id"], jsonDict["name"], jsonDict["address"])
+    elif objectType == type(Book()):
+        objectReturned = Book(jsonDict["name"], jsonDict["isbn"], jsonDict["author"],
+                              jsonDict["publication_date"], jsonDict["publisher"],
+                              jsonDict["pages_number"], jsonDict["cover_type"])
+    elif objectType == type(Borrower()):
+        objectReturned = Borrower(jsonDict["id"], jsonDict["name"], jsonDict["address"],
+                                  jsonDict["isbn"], jsonDict["borrow_date"], jsonDict["return_date"])
+    else:
+        print("Invalid Object!\n")
+    return objectReturned
