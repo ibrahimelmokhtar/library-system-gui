@@ -1,5 +1,8 @@
 from manageJsonFile import *
 
+"""
+# add objects:
+
 addObject(Member("14p8195", "Ibrahim El-Mokhtar", "Cairo, Egypt"))
 addObject(Member("14p9090", "Mohamed Adel", "Cairo, Egypt"))
 addObject(Member("14p9702", "Amir Eid", "Cairo, Egypt"))
@@ -27,3 +30,21 @@ addObject(Book("The Da Vinci Code", "None",
 addObject(Borrower("14p8195", "Ibrahim El-Mokhtar", "Cairo, Egypt", "0439358078",
                    datetime.datetime(2021, 1, 10).date(),
                    datetime.datetime(2021, 2, 12).date()))
+"""
+
+# search objects:
+
+# search member by ID:  (exists)
+person = searchPerson("14p8195")
+# search member by ID:  (does NOT exist)
+person = searchPerson("14p0000")
+
+# search borrower by ID:    (exists)
+person = searchPerson("14p9090")
+# search borrower by ID:    (does NOT exist)
+person = searchPerson("14p9702")
+
+# search member by name:    (exists)
+person = searchPerson("Ibrahim El-Mokhtar", isName=True)
+# search borrower by name:  (does NOT exist)
+person = searchPerson("Amir Eid", isName=True)

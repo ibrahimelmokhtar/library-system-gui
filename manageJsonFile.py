@@ -79,3 +79,26 @@ def addObject(newObject):
 
     # save into JSON file:
     saveIntoFile(data)
+
+def searchPerson(name_or_id, isName=False):
+    # check JSON file existence:
+    data = checkFileExistence()
+
+    personType = int(input("""search members or borrowers?
+        1. members\t2.borrowers\tchoose a number: """))
+    if personType == 1:
+        personType = "members"
+    else:
+        personType = "borrowers"
+
+    if isName:
+        searchField = "name"
+    else:
+        searchField = "id"
+
+    for person in data[personType]:
+        if person[searchField] == name_or_id:
+            print("{} exists.".format(personType[:-1]))
+            print("{}\n".format(json.dumps(person, indent=2)))
+            return person
+    print("{} does NOT exist.\n".format(personType[:-1]))
