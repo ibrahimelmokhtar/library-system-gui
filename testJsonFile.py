@@ -32,6 +32,7 @@ addObject(Borrower("14p8195", "Ibrahim El-Mokhtar", "Cairo, Egypt", "0439358078"
                    datetime.datetime(2021, 2, 12).date()))
 """
 
+"""
 # search objects:
 
 # search member by ID:  (exists)
@@ -48,3 +49,12 @@ person = searchPerson("14p9702")
 person = searchPerson("Ibrahim El-Mokhtar", isName=True)
 # search borrower by name:  (does NOT exist)
 person = searchPerson("Amir Eid", isName=True)
+"""
+# search book by name:  (exists)
+searchBook("The Hunger Games", isName=True)
+# search book by name:  (does NOT exist)
+searchBook("Harry Potter", isName=True)
+# search book by ISBN   (exists)
+searchBook("0451526341")
+# search book by ISBN   (does NOT exist)
+searchBook("1400096898")

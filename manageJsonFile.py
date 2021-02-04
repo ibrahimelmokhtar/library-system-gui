@@ -28,16 +28,31 @@ def checkFileExistence():
     return data
 
 def readFromFile():
+    """Read JSON data from .json file.
+
+    Returns:
+        dict: JSON object contains all saved data.
+    """
     with open(dataJsonFile, 'r') as inputFile:
             data = inputFile.read()
             data = json.loads(data)
     return data
 def saveIntoFile(data):
+    """Save JSON data into .json file.
+
+    Args:
+        data (dict): JSON object
+    """
     with open(dataJsonFile, 'w') as outputFile:
         data = json.dumps(data, indent=2)
         outputFile.write(data)
 
 def addObject(newObject):
+    """Add new Member, Book, or Borrower.
+
+    Args:
+        newObject (object): the new object to be added.
+    """
     # check JSON file existence:
     data = checkFileExistence()
 
@@ -76,11 +91,22 @@ def addObject(newObject):
                 "return_date": str(borrowerObject.getReturnDate())
             }
         )
+    else:
+        print("Invalid Object!\n")
 
     # save into JSON file:
     saveIntoFile(data)
 
 def searchPerson(name_or_id, isName=False):
+    """Search members or borrowers lists using name or ID to see if specific person exists or not.
+
+    Args:
+        name_or_id (string): the name or ID of the person.
+        isName (bool, optional): Specify weather first argument is name or not. Defaults to False.
+
+    Returns:
+        dict: the required person if exists.
+    """
     # check JSON file existence:
     data = checkFileExistence()
 
@@ -91,10 +117,9 @@ def searchPerson(name_or_id, isName=False):
     else:
         personType = "borrowers"
 
+    searchField = "id"
     if isName:
         searchField = "name"
-    else:
-        searchField = "id"
 
     for person in data[personType]:
         if person[searchField] == name_or_id:
@@ -102,3 +127,27 @@ def searchPerson(name_or_id, isName=False):
             print("{}\n".format(json.dumps(person, indent=2)))
             return person
     print("{} does NOT exist.\n".format(personType[:-1]))
+
+def searchBook(name_or_isbn, isName=False):
+    """Search books list using name or ISBN to see if specific book exists or not.
+
+    Args:
+        name_or_isbn (string): the name or ISBN of the book.
+        isName (bool, optional): Specify weather first argument is name or not. Defaults to False.
+
+    Returns:
+        dict: the required book if exists.
+    """
+    # check JSON file existence:
+    data = checkFileExistence()
+
+    searchField = "isbn"
+    if isName:
+        searchField = "name"
+
+    for book in data["books"]:
+        if book[searchField] == name_or_isbn:
+            print("Book exists.")
+            print("{}\n".format(json.dumps(book, indent=2)))
+            return book
+    print("Book does NOT exist.\n")
