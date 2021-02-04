@@ -270,5 +270,14 @@ def deleteItem(searchKeyword, itemType, isName=False):
         if item == itemToBeDeleted:
             continue
         addObject(item)
-    print(itemToBeDeleted)
+    # print(itemToBeDeleted)
     return itemToBeDeleted
+
+def updateItem(searchKeyword, itemType, newItem, isName=False):
+    # check JSON file existence:
+    data = checkFileExistence()
+
+    itemToBeDeleted = deleteItem(searchKeyword, itemType, isName)
+    if type(itemToBeDeleted) != False:
+        addObject(newItem)
+        print("Data is up-to-date.")

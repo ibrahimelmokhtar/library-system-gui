@@ -102,3 +102,12 @@ deletedItem = deleteItem("The Hunger Games", type(Book()), isName=True)   # Foun
 deletedItem = deleteItem("14p8195", type(Member()))                       # Found + will be deleted
 deletedItem = deleteItem("Amir Eid", type(Borrower()), isName=True)       # NOT FOUND + will NOT be deleted
 """
+
+# update items:
+
+newItem = Member("14p8195", "Ibrahim El-Mokhtar", "Alexandria, Egypt")
+updateItem("14p8195", type(Member()), newItem)
+
+newItem = Borrower("14p8195", "Ibrahim El-Mokhtar", "Alexandria, Egypt", "0439358078",
+                       datetime.datetime(2021, 1, 10).date(), datetime.datetime(2021, 2, 12).date())
+updateItem("Ibrahim El-Mokhtar", type(Borrower()), newItem, isName=True)
