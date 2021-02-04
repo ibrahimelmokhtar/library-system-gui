@@ -32,7 +32,7 @@ addObject(Borrower("14p8195", "Ibrahim El-Mokhtar", "Cairo, Egypt", "0439358078"
                    datetime.datetime(2021, 2, 12).date()))
 """
 
-
+"""
 # search objects:
 
 # search member by ID:  (exists)
@@ -58,3 +58,17 @@ searchBook("Harry Potter", isName=True)
 searchBook("0451526341")
 # search book by ISBN   (does NOT exist)
 searchBook("1400096898")
+"""
+
+# display full lists:
+print("Members' list:")
+count = displayFullList(type(Member()))
+print("Total: {} items\n\n".format(count))
+
+print("Books' list:")
+count = displayFullList(type(Book()))
+print("Total: {} items\n\n".format(count))
+
+print("Borrowers' list:")
+count = displayFullList(type(Borrower()))
+print("Total: {} items\n\n".format(count))

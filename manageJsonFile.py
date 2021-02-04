@@ -178,3 +178,37 @@ def convertDictIntoObject(jsonDict, objectType):
     else:
         print("Invalid Object!\n")
     return objectReturned
+
+def displayFullList(listType):
+    """Display full list.
+
+    Args:
+        listType (class type): the list's type to be displayed.
+
+    Returns:
+        int: the number of items in the displayed list.
+    """
+    # check JSON file existence:
+    data = checkFileExistence()
+
+    count = 0
+    if listType == type(Member()):
+        objectType = "members"
+        convertTo = type(Member())
+
+    elif listType == type(Borrower()):
+        objectType = "borrowers"
+        convertTo = type(Borrower())
+
+    elif listType == type(Book()):
+        objectType = "books"
+        convertTo = type(Book())
+    else:
+        print("Invalid Object!\n")
+
+
+    for item in data[objectType]:
+        objectReturned = convertDictIntoObject(item, convertTo)
+        print(objectReturned)
+        count += 1
+    return count
