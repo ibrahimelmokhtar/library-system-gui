@@ -131,7 +131,7 @@ def searchBook(name_or_isbn, isName=False):
 
     Args:
         name_or_isbn (string): the name or ISBN of the book.
-        isName (bool, optional): Specify weather first argument is name or not. Defaults to False.
+        isName (bool, optional): Specify if first argument is name or not. Defaults to False.
 
     Returns:
         dict: the required book if exists.
@@ -208,6 +208,13 @@ def displayFullList(listType):
     return count
 
 def displayItem(searchKeyword, itemType, isName=False):
+    """Display specific item.
+
+    Args:
+        searchKeyword (string): name, id, or isbn of the item.
+        itemType (class type): the item's type to be displayed.
+        isName (bool, optional): Specify if first argument is name or not. Defaults to False.
+    """
     item = ""
     if itemType == type(Member()):
         item = searchPerson(searchKeyword, "members", isName)
@@ -220,3 +227,48 @@ def displayItem(searchKeyword, itemType, isName=False):
 
     if item != None:
         print(item)
+
+def deleteItem(searchKeyword, itemType, isName=False):
+    """Delete specific item.
+
+    Args:
+        searchKeyword (string): name, id, or isbn of the item.
+        itemType (class type): type of the item.
+        isName (bool, optional): specify if first argument is name or not. Defaults to False.
+
+    Returns:
+        object: the deleted object.
+    """
+    # check JSON file existence:
+    data = checkFileExistence()
+
+    if itemType == type(Member()):
+        itemType = "members"
+        convertTo = type(Member())
+        itemToBeDeleted = searchPerson(searchKeyword, itemType, isName)
+    elif itemType == type(Borrower()):
+        itemType = "borrowers"
+        convertTo = type(Borrower())
+        itemToBeDeleted = searchPerson(searchKeyword, itemType, isName)
+    elif itemType == type(Book()):
+        itemType = "books"
+        convertTo = type(Book())
+        itemToBeDeleted = searchBook(searchKeyword, isName)
+    else:
+        print("Invalid Object!\n")
+
+    # check the type of returned item: (to validate that it exists)
+    if type(itemToBeDeleted) != convertTo:
+        print("NO ITEM TO BE DELETED!!!!")
+        return False
+
+    newData = data.copy()
+    newData[itemType] = []
+    saveIntoFile(newData)
+    for item in data[itemType]:
+        item = convertDictIntoObject(item, convertTo)
+        if item == itemToBeDeleted:
+            continue
+        addObject(item)
+    print(itemToBeDeleted)
+    return itemToBeDeleted
