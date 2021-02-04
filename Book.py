@@ -39,6 +39,10 @@ class Book():
         return output.format(self.name, self.isbn, self.author, self.publication_date,
                              self.publisher, self.pages_number, self.cover_type)
 
+    def __eq__(self, other) :
+        return self.__dict__ == other.__dict__
+
+
 # Setter and Getter functions:
     def setName(self, name):
         self.name = name

@@ -22,6 +22,9 @@ class Member():
         """
         return output.format(self.id, self.name, self.address)
 
+    def __eq__(self, other) :
+        return self.__dict__ == other.__dict__
+
 # Setter and Getter functions:
     def setID(self, id):
         self.id = id
