@@ -2,8 +2,10 @@ import json
 from Book import *
 from Member import *
 from Borrower import *
+import tkinter as tk
 
 dataJsonFile = "data.json"
+TIMEOUT = 2000
 
 def checkFileExistence():
     """ Check if JSON file exists or not.
@@ -37,7 +39,7 @@ def readFromFile():
             data = inputFile.read()
             data = json.loads(data)
     return data
-def saveIntoFile(data):
+def saveIntoFile(data, objectData, masterFrame):
     """Save JSON data into .json file.
 
     Args:
@@ -47,7 +49,18 @@ def saveIntoFile(data):
         data = json.dumps(data, indent=2)
         outputFile.write(data)
 
-def addObject(newObject):
+    # display label message for the user:
+    message = tk.Label(master=masterFrame, text="Added Successfully!", fg="green")
+    message.grid(row=4, column=1)
+    message.after(TIMEOUT, lambda: message.config(text=""))
+
+    # clear input fields:
+    for dataEntry in objectData:
+        dataEntry.delete(0, 'end')
+
+
+
+def addObject(newObject, objectData, masterFrame):
     """Add new Member, Book, or Borrower.
 
     Args:
@@ -61,9 +74,9 @@ def addObject(newObject):
         memberObject = newObject
         data["members"].append(
             {
-                "id": memberObject.getID(),
-                "name": memberObject.getName(),
-                "address": memberObject.getAddress()
+                "id": objectData[0].get(),
+                "name": objectData[1].get(),
+                "address": objectData[2].get()
             }
         )
     elif type(newObject) is Book:
@@ -95,7 +108,7 @@ def addObject(newObject):
         print("Invalid Object!\n")
 
     # save into JSON file:
-    saveIntoFile(data)
+    saveIntoFile(data, objectData, masterFrame)
 
 def searchPerson(name_or_id, personType, isName=False):
     """Search members or borrowers lists using name or ID to see if specific person exists or not.
@@ -207,7 +220,7 @@ def displayFullList(listType):
         count += 1
     return count
 
-def displayItem(searchKeyword, itemType, isName=False):
+def displayItem(searchKeyword, itemType, masterFrame, isName=False):
     """Display specific item.
 
     Args:
@@ -228,7 +241,7 @@ def displayItem(searchKeyword, itemType, isName=False):
     if item != None:
         print(item)
 
-def deleteItem(searchKeyword, itemType, isName=False):
+def deleteItem(searchKeyword, itemType, masterFrame, isName=False):
     """Delete specific item.
 
     Args:
@@ -269,15 +282,14 @@ def deleteItem(searchKeyword, itemType, isName=False):
         item = convertDictIntoObject(item, convertTo)
         if item == itemToBeDeleted:
             continue
-        addObject(item)
-    # print(itemToBeDeleted)
+        addObject(item, masterFrame)
     return itemToBeDeleted
 
-def updateItem(searchKeyword, itemType, newItem, isName=False):
+def updateItem(searchKeyword, itemType, newItem, masterFrame, isName=False):
     # check JSON file existence:
     data = checkFileExistence()
 
     itemToBeDeleted = deleteItem(searchKeyword, itemType, isName)
     if type(itemToBeDeleted) != False:
-        addObject(newItem)
+        addObject(newItem, masterFrame)
         print("Data is up-to-date.")
