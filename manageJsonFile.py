@@ -48,19 +48,21 @@ def saveIntoFile(data, objectData, masterFrame):
     with open(dataJsonFile, 'w') as outputFile:
         data = json.dumps(data, indent=2)
         outputFile.write(data)
+    displayMessage(masterFrame, "Done Successfully!", "green")
+    clearFields(objectData)
 
-    # display label message for the user:
-    message = tk.Label(master=masterFrame, text="Added Successfully!", fg="green")
+# display label message for the user:
+def displayMessage(masterFrame, messageText, messageColor):
+    message = tk.Label(master=masterFrame, text=messageText, fg=messageColor, font="bold")
     message.grid(row=4, column=1)
     message.after(TIMEOUT, lambda: message.config(text=""))
 
-    # clear input fields:
+# clear input fields:
+def clearFields(objectData):
     for dataEntry in objectData:
         dataEntry.delete(0, 'end')
 
-
-
-def addObject(newObject, objectData, masterFrame):
+def addObject(newObject, objectData, masterFrame, isDeleting=False):
     """Add new Member, Book, or Borrower.
 
     Args:
@@ -71,7 +73,10 @@ def addObject(newObject, objectData, masterFrame):
 
     # append a (dict) object to specific list:
     if type(newObject) is Member:
-        memberObject = newObject
+        if isDeleting:
+            objectData[0].insert(0, newObject.getID())
+            objectData[1].insert(0, newObject.getName())
+            objectData[2].insert(0, newObject.getAddress())
         data["members"].append(
             {
                 "id": objectData[0].get(),
@@ -241,7 +246,7 @@ def displayItem(searchKeyword, itemType, masterFrame, isName=False):
     if item != None:
         print(item)
 
-def deleteItem(searchKeyword, itemType, masterFrame, isName=False):
+def deleteItem(itemType, objectData, masterFrame):
     """Delete specific item.
 
     Args:
@@ -254,6 +259,8 @@ def deleteItem(searchKeyword, itemType, masterFrame, isName=False):
     """
     # check JSON file existence:
     data = checkFileExistence()
+
+    searchKeyword, isName = captureData(objectData)
 
     if itemType == type(Member()):
         itemType = "members"
@@ -272,17 +279,18 @@ def deleteItem(searchKeyword, itemType, masterFrame, isName=False):
 
     # check the type of returned item: (to validate that it exists)
     if type(itemToBeDeleted) != convertTo:
-        print("NO ITEM TO BE DELETED!!!!")
+        displayMessage(masterFrame, "Invalid item!", "red")
         return False
 
     newData = data.copy()
     newData[itemType] = []
-    saveIntoFile(newData)
+    saveIntoFile(newData, objectData, masterFrame)
     for item in data[itemType]:
         item = convertDictIntoObject(item, convertTo)
         if item == itemToBeDeleted:
             continue
-        addObject(item, masterFrame)
+
+        addObject(item, objectData, masterFrame, isDeleting=True)
     return itemToBeDeleted
 
 def updateItem(searchKeyword, itemType, newItem, masterFrame, isName=False):
@@ -293,3 +301,13 @@ def updateItem(searchKeyword, itemType, newItem, masterFrame, isName=False):
     if type(itemToBeDeleted) != False:
         addObject(newItem, masterFrame)
         print("Data is up-to-date.")
+
+def captureData(objectData):
+    if len(objectData[0].get()) > 0:
+        searchKeyword = objectData[0].get()
+        isName = False
+    else:
+        searchKeyword = objectData[1].get()
+        isName = True
+
+    return searchKeyword, isName
