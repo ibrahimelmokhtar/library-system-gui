@@ -4,9 +4,9 @@ from functools import partial   # to pass function parameters within "command" i
 
 # create window:
 window = tk.Tk()
-ENTRY_WIDTH = 80
-PADDING_Y = 10
-PADDING_X = 10
+ENTRY_WIDTH = 50
+PADDING_Y = 5
+PADDING_X = 5
 
 # start window at full screen size:
 window_width = window.winfo_screenwidth()
@@ -35,6 +35,8 @@ memberAddressEntry.grid(row=3, column=1, pady= (PADDING_Y, 0))
 
 memberData = [memberIDEntry, memberNameEntry, memberAddressEntry]
 
+tk.Label(master=memberFrame, text="", font="bold").grid(row=4, column=1)
+
 # members' buttons:
 addMemberBtn = tk.Button(master=memberFrame, text="Add Member", width=15,
                                command=partial(addObject, Member(), memberData, memberFrame))
@@ -43,15 +45,18 @@ addMemberBtn.grid(row=5, column=1, pady=(PADDING_Y, 0))
 deleteMemberBtn = tk.Button(master=memberFrame, text="Delete Member", width=15,
                                command=partial(deleteItem, type(Member()), memberData, memberFrame))
 deleteMemberBtn.grid(row=5, column=2, pady=(PADDING_Y, 0))
-"""
-displayMemberBtn = tk.Button(master=memberFrame, text="Display Member", width=15,
-                               command=displayItem(searchKeyword, type(Member()), memberFrame, isName))
-displayMemberBtn.grid(row=6, column=1, pady=(PADDING_Y, PADDING_Y))
 
 displayFullMembersBtn = tk.Button(master=memberFrame, text="Display Full List", width=15,
-                               command=displayFullList(type(Member())))
-displayFullMembersBtn.grid(row=6, column=2, pady=(PADDING_Y, PADDING_Y))
-"""
+                               command=partial(displayFullList, type(Member()), memberFrame))
+displayFullMembersBtn.grid(row=6, column=0, pady=(PADDING_Y, PADDING_Y))
+
+updateMemberBtn = tk.Button(master=memberFrame, text="Update Member", width=15,
+                               command=partial(displayItem, type(Member()), memberFrame))
+updateMemberBtn.grid(row=6, column=1, pady=(PADDING_Y, PADDING_Y))
+
+displayMemberBtn = tk.Button(master=memberFrame, text="Display Member", width=15,
+                               command=partial(displayItem, type(Member()), memberData, memberFrame))
+displayMemberBtn.grid(row=6, column=2, pady=(PADDING_Y, PADDING_Y))
 """
 tk.Label(text="New Book: ").pack()
 tk.Label(text="Name: ").pack()
@@ -84,6 +89,6 @@ tk.Entry(width=100).pack()
 tk.Label(text="Return Date: ").pack()
 tk.Entry(width=100).pack()
 tk.Button(text="Add Borrower", width=15).pack()
-
 """
+
 window.mainloop()

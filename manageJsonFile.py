@@ -6,6 +6,8 @@ import tkinter as tk
 
 dataJsonFile = "data.json"
 TIMEOUT = 2000
+DONE_MESSAGE = "Done Successfully!"
+ERROR_MESSAGE = "Invalid Item!"
 
 def checkFileExistence():
     """ Check if JSON file exists or not.
@@ -48,19 +50,25 @@ def saveIntoFile(data, objectData, masterFrame):
     with open(dataJsonFile, 'w') as outputFile:
         data = json.dumps(data, indent=2)
         outputFile.write(data)
-    displayMessage(masterFrame, "Done Successfully!", "green")
+    displayMessage(masterFrame, DONE_MESSAGE, "green")
     clearFields(objectData)
 
 # display label message for the user:
 def displayMessage(masterFrame, messageText, messageColor):
     message = tk.Label(master=masterFrame, text=messageText, fg=messageColor, font="bold")
     message.grid(row=4, column=1)
-    message.after(TIMEOUT, lambda: message.config(text=""))
+    message.after(TIMEOUT, lambda: message.config(text="", font="bold"))
 
 # clear input fields:
 def clearFields(objectData):
     for dataEntry in objectData:
         dataEntry.delete(0, 'end')
+
+def insertFields(objectData, foundObject):
+    clearFields(objectData)
+    objectData[0].insert(0, foundObject.getID())
+    objectData[1].insert(0, foundObject.getName())
+    objectData[2].insert(0, foundObject.getAddress())
 
 def addObject(newObject, objectData, masterFrame, isDeleting=False):
     """Add new Member, Book, or Borrower.
@@ -74,9 +82,7 @@ def addObject(newObject, objectData, masterFrame, isDeleting=False):
     # append a (dict) object to specific list:
     if type(newObject) is Member:
         if isDeleting:
-            objectData[0].insert(0, newObject.getID())
-            objectData[1].insert(0, newObject.getName())
-            objectData[2].insert(0, newObject.getAddress())
+            insertFields(objectData, newObject)
         data["members"].append(
             {
                 "id": objectData[0].get(),
@@ -143,6 +149,7 @@ def searchPerson(name_or_id, personType, isName=False):
             person = convertDictIntoObject(person, convertTo)
             return person
     print("{} does NOT exist.\n".format(personType[:-1]))
+    return False
 
 def searchBook(name_or_isbn, isName=False):
     """Search books list using name or ISBN to see if specific book exists or not.
@@ -167,6 +174,7 @@ def searchBook(name_or_isbn, isName=False):
             book = convertDictIntoObject(book, type(Book()))
             return book
     print("Book does NOT exist.\n")
+    return False
 
 def convertDictIntoObject(jsonDict, objectType):
     """Convert dict json format into its corresponding object type.
@@ -191,7 +199,7 @@ def convertDictIntoObject(jsonDict, objectType):
         print("Invalid Object!\n")
     return objectReturned
 
-def displayFullList(listType):
+def displayFullList(listType, masterFrame):
     """Display full list.
 
     Args:
@@ -223,9 +231,10 @@ def displayFullList(listType):
         objectReturned = convertDictIntoObject(item, convertTo)
         print(objectReturned)
         count += 1
+    displayMessage(masterFrame, DONE_MESSAGE, "green")
     return count
 
-def displayItem(searchKeyword, itemType, masterFrame, isName=False):
+def displayItem(itemType, objectData, masterFrame):
     """Display specific item.
 
     Args:
@@ -233,7 +242,8 @@ def displayItem(searchKeyword, itemType, masterFrame, isName=False):
         itemType (class type): the item's type to be displayed.
         isName (bool, optional): Specify if first argument is name or not. Defaults to False.
     """
-    item = ""
+    item = None
+    searchKeyword, isName = captureData(objectData)
     if itemType == type(Member()):
         item = searchPerson(searchKeyword, "members", isName)
     elif itemType == type(Borrower()):
@@ -243,8 +253,12 @@ def displayItem(searchKeyword, itemType, masterFrame, isName=False):
     else:
         print("Invalid Object!\n")
 
-    if item != None:
-        print(item)
+    if item:
+        insertFields(objectData, item)
+        displayMessage(masterFrame, DONE_MESSAGE, "green")
+    else:
+        displayMessage(masterFrame, ERROR_MESSAGE, "red")
+
 
 def deleteItem(itemType, objectData, masterFrame):
     """Delete specific item.
@@ -279,7 +293,7 @@ def deleteItem(itemType, objectData, masterFrame):
 
     # check the type of returned item: (to validate that it exists)
     if type(itemToBeDeleted) != convertTo:
-        displayMessage(masterFrame, "Invalid item!", "red")
+        displayMessage(masterFrame, ERROR_MESSAGE, "red")
         return False
 
     newData = data.copy()
