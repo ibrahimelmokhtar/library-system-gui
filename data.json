@@ -1,24 +1,19 @@
 {
   "members": [
     {
-      "id": "14p9090",
-      "name": "Mohamed Adel",
+      "id": "14p9000",
+      "name": "Joseph Adel",
       "address": "Cairo, Egypt"
     },
     {
-      "id": "14p9702",
-      "name": "Amir Eid",
+      "id": "14p9090",
+      "name": "Mohamed Adel",
       "address": "Cairo, Egypt"
     },
     {
       "id": "14p8195",
       "name": "Ibrahim El-Mokhtar",
       "address": "Alexandria, Egypt"
-    },
-    {
-      "id": "14p1010",
-      "name": "Joseph Adel",
-      "address": "Cairo, Egypt"
     }
   ],
   "books": [
@@ -71,7 +66,7 @@
     {
       "id": "14p8195",
       "name": "Ibrahim El-Mokhtar",
-      "address": "Alexandria, Egypt",
+      "address": "Cairo, Egypt",
       "isbn": "0439358078",
       "borrow_date": "2021-01-10",
       "return_date": "2021-02-12"

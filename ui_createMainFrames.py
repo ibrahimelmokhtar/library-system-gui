@@ -7,31 +7,32 @@ PADDING_Y = 10
 PADDING_X = 10
 
 
-def createButtons(masterFrame, objectData, buttonText, lastInnerRow):
+def createButtons(masterFrame, objectData, itemClass, buttonText, lastInnerRow, messageRow):
+    itemType = type(itemClass)
     functionText = "Add " + buttonText
-    addMemberBtn = tk.Button(master=masterFrame, text=functionText, width=15,
-                                command=partial(addObject, Member(), objectData, masterFrame))
-    addMemberBtn.grid(row=lastInnerRow, column=1, pady=(PADDING_Y, 0))
+    addItemBtn = tk.Button(master=masterFrame, text=functionText, width=15,
+                                command=partial(addItem, itemClass, objectData, masterFrame, messageRow))
+    addItemBtn.grid(row=lastInnerRow, column=1, pady=(PADDING_Y, 0))
 
     functionText = "Delete " + buttonText
-    deleteMemberBtn = tk.Button(master=masterFrame, text=functionText, width=15,
-                                command=partial(deleteItem, type(Member()), objectData, masterFrame))
-    deleteMemberBtn.grid(row=lastInnerRow, column=2, pady=(PADDING_Y, 0))
+    deleteItemBtn = tk.Button(master=masterFrame, text=functionText, width=15,
+                                command=partial(deleteItem, itemType, objectData, masterFrame, messageRow))
+    deleteItemBtn.grid(row=lastInnerRow, column=2, pady=(PADDING_Y, 0))
 
     lastInnerRow += 1
-    displayFullMembersBtn = tk.Button(master=masterFrame, text="Display Full List", width=15,
-                                command=partial(displayFullList, type(Member()), masterFrame))
-    displayFullMembersBtn.grid(row=lastInnerRow, column=0, pady=(PADDING_Y, PADDING_Y))
+    displayFullListBtn = tk.Button(master=masterFrame, text="Display Full List", width=15,
+                                command=partial(displayFullList, itemType, masterFrame, messageRow))
+    displayFullListBtn.grid(row=lastInnerRow, column=0, pady=(PADDING_Y, PADDING_Y))
 
     functionText = "Update " + buttonText
-    updateMemberBtn = tk.Button(master=masterFrame, text=functionText, width=15,
-                                command=partial(updateItem, type(Member()), objectData, masterFrame))
-    updateMemberBtn.grid(row=lastInnerRow, column=1, pady=(PADDING_Y, PADDING_Y))
+    updateItemBtn = tk.Button(master=masterFrame, text=functionText, width=15,
+                                command=partial(updateItem, itemType, objectData, masterFrame, messageRow))
+    updateItemBtn.grid(row=lastInnerRow, column=1, pady=(PADDING_Y, PADDING_Y))
 
     functionText = "Display " + buttonText
-    displayMemberBtn = tk.Button(master=masterFrame, text=functionText, width=15,
-                                command=partial(displayItem, type(Member()), objectData, masterFrame))
-    displayMemberBtn.grid(row=lastInnerRow, column=2, pady=(PADDING_Y, PADDING_Y))
+    displayItemBtn = tk.Button(master=masterFrame, text=functionText, width=15,
+                                command=partial(displayItem, itemType, objectData, masterFrame, messageRow))
+    displayItemBtn.grid(row=lastInnerRow, column=2, pady=(PADDING_Y, PADDING_Y))
 
 
 def createMembersFrame(masterWindow):
@@ -62,11 +63,13 @@ def createMembersFrame(masterWindow):
     memberData = [memberIDEntry, memberNameEntry, memberAddressEntry]
 
     innerRow += 1
+    messageRow = innerRow
     tk.Label(master=memberFrame, text="", font="bold").grid(row=innerRow, column=1)
 
     innerRow += 1
     buttonText = "Member"
-    createButtons(memberFrame, memberData, buttonText, innerRow)
+    itemClass = Member()
+    createButtons(memberFrame, memberData, itemClass, buttonText, innerRow, messageRow)
 
 
 def createBooksFrame(masterWindow):
@@ -118,11 +121,13 @@ def createBooksFrame(masterWindow):
                 bookPublisherEntry, bookPagesNumberEntry, bookCoverTypeEntry]
 
     innerRow += 1
+    messageRow = innerRow
     tk.Label(master=bookFrame, text="", font="bold").grid(row=innerRow, column=1)
 
     innerRow += 1
     buttonText = "Book"
-    createButtons(bookFrame, bookData, buttonText, innerRow)
+    itemClass = Book()
+    createButtons(bookFrame, bookData, itemClass, buttonText, innerRow, messageRow)
 
 
 def createBorrowersFrame(masterWindow):
@@ -170,8 +175,10 @@ def createBorrowersFrame(masterWindow):
                     bookISBNEntry, bookBorrowDateEntry, bookReturnDateEntry]
 
     innerRow += 1
+    messageRow = innerRow
     tk.Label(master=borrowerFrame, text="", font="bold").grid(row=innerRow, column=1)
 
     innerRow += 1
     buttonText = "Borrower"
-    createButtons(borrowerFrame, borrowerData, buttonText, innerRow)
+    itemClass = Borrower()
+    createButtons(borrowerFrame, borrowerData, itemClass, buttonText, innerRow, messageRow)

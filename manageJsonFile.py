@@ -41,7 +41,7 @@ def readFromFile():
             data = inputFile.read()
             data = json.loads(data)
     return data
-def saveIntoFile(data, objectData, masterFrame):
+def saveIntoFile(data, objectData, masterFrame, messageRow):
     """Save JSON data into .json file.
 
     Args:
@@ -50,13 +50,13 @@ def saveIntoFile(data, objectData, masterFrame):
     with open(dataJsonFile, 'w') as outputFile:
         data = json.dumps(data, indent=2)
         outputFile.write(data)
-    displayMessage(masterFrame, DONE_MESSAGE, "green")
+    displayMessage(masterFrame, messageRow, DONE_MESSAGE, "green")
     clearFields(objectData)
 
 # display label message for the user:
-def displayMessage(masterFrame, messageText, messageColor):
+def displayMessage(masterFrame, messageRow, messageText, messageColor):
     message = tk.Label(master=masterFrame, text=messageText, fg=messageColor, font="bold")
-    message.grid(row=4, column=1)
+    message.grid(row=messageRow, column=1)
     message.after(TIMEOUT, lambda: message.config(text="", font="bold"))
 
 # clear input fields:
@@ -70,7 +70,7 @@ def insertFields(objectData, foundObject):
     objectData[1].insert(0, foundObject.getName())
     objectData[2].insert(0, foundObject.getAddress())
 
-def addObject(newObject, objectData, masterFrame, isDeleting=False):
+def addItem(newObject, objectData, masterFrame, messageRow, isDeleting=False):
     """Add new Member, Book, or Borrower.
 
     Args:
@@ -119,7 +119,7 @@ def addObject(newObject, objectData, masterFrame, isDeleting=False):
         print("Invalid Object!\n")
 
     # save into JSON file:
-    saveIntoFile(data, objectData, masterFrame)
+    saveIntoFile(data, objectData, masterFrame, messageRow)
 
 def searchPerson(name_or_id, personType, isName=False):
     """Search members or borrowers lists using name or ID to see if specific person exists or not.
@@ -199,7 +199,7 @@ def convertDictIntoObject(jsonDict, objectType):
         print("Invalid Object!\n")
     return objectReturned
 
-def displayFullList(listType, masterFrame):
+def displayFullList(listType, masterFrame, messageRow):
     """Display full list.
 
     Args:
@@ -253,10 +253,10 @@ def displayFullList(listType, masterFrame):
         print(objectReturned)
         count += 1
         frameRow += 1
-    displayMessage(masterFrame, DONE_MESSAGE, "green")
+    displayMessage(masterFrame, messageRow, DONE_MESSAGE, "green")
     return count
 
-def displayItem(itemType, objectData, masterFrame):
+def displayItem(itemType, objectData, masterFrame, messageRow):
     """Display specific item.
 
     Args:
@@ -277,12 +277,12 @@ def displayItem(itemType, objectData, masterFrame):
 
     if item:
         insertFields(objectData, item)
-        displayMessage(masterFrame, DONE_MESSAGE, "green")
+        displayMessage(masterFrame, messageRow, DONE_MESSAGE, "green")
     else:
-        displayMessage(masterFrame, ERROR_MESSAGE, "red")
+        displayMessage(masterFrame, messageRow, ERROR_MESSAGE, "red")
 
 
-def deleteItem(itemType, objectData, masterFrame):
+def deleteItem(itemType, objectData, masterFrame, messageRow):
     """Delete specific item.
 
     Args:
@@ -315,30 +315,30 @@ def deleteItem(itemType, objectData, masterFrame):
 
     # check the type of returned item: (to validate that it exists)
     if type(itemToBeDeleted) != convertTo:
-        displayMessage(masterFrame, ERROR_MESSAGE, "red")
+        displayMessage(masterFrame, messageRow, ERROR_MESSAGE, "red")
         return False
 
     newData = data.copy()
     newData[itemType] = []
-    saveIntoFile(newData, objectData, masterFrame)
+    saveIntoFile(newData, objectData, masterFrame, messageRow)
     for item in data[itemType]:
         item = convertDictIntoObject(item, convertTo)
         if item == itemToBeDeleted:
             continue
 
-        addObject(item, objectData, masterFrame, isDeleting=True)
+        addItem(item, objectData, masterFrame, messageRow, isDeleting=True)
     return itemToBeDeleted
 
-def updateItem(itemType, objectData, masterFrame):
+def updateItem(itemType, objectData, masterFrame, messageRow):
     # check JSON file existence:
     data = checkFileExistence()
 
     searchKeyword, isName = captureData(objectData)
     newItem = captureFullData(objectData)
 
-    itemToBeDeleted = deleteItem(itemType, objectData, masterFrame)
+    itemToBeDeleted = deleteItem(itemType, objectData, masterFrame, messageRow)
     if type(itemToBeDeleted) != False:
-        addObject(newItem, objectData, masterFrame, isDeleting=True)
+        addItem(newItem, objectData, masterFrame, messageRow, isDeleting=True)
         print("Data is up-to-date.")
 
 def captureData(objectData):
