@@ -65,8 +65,18 @@ def clearFields(objectData):
     for dataEntry in objectData:
         dataEntry.delete(0, 'end')
 
-def insertFields(objectData, foundObjectData):
+def insertFields(objectData, foundObject):
     clearFields(objectData)
+    if type(foundObject) is Member:
+        foundObjectData = [foundObject.getID(), foundObject.getName(), foundObject.getAddress()]
+    elif type(foundObject) is Book:
+        foundObjectData = [foundObject.getName(), foundObject.getISBN(), foundObject.getAuthor(),
+                           foundObject.getDate(), foundObject.getPublisher(),
+                           foundObject.getPagesNumber(), foundObject.getCoverType()]
+    elif type(foundObject) is Borrower:
+        foundObjectData = [foundObject.getID(), foundObject.getName(), foundObject.getAddress(),
+                           foundObject.getISBN(), foundObject.getBorrowDate(), foundObject.getReturnDate()]
+
     for i in range(len(foundObjectData)):
         objectData[i].insert(0, foundObjectData[i])
 
@@ -80,10 +90,10 @@ def addItem(newObject, objectData, masterFrame, messageRow, isDeleting=False):
     data = checkFileExistence()
 
     # append a (dict) object to specific list:
+    if isDeleting:
+        insertFields(objectData, newObject)
+
     if type(newObject) is Member:
-        if isDeleting:
-            newObjectData = [newObject.getID(), newObject.getName(), newObject.getAddress()]
-            insertFields(objectData, newObjectData)
         data["members"].append(
             {
                 "id": objectData[0].get(),
@@ -92,11 +102,6 @@ def addItem(newObject, objectData, masterFrame, messageRow, isDeleting=False):
             }
         )
     elif type(newObject) is Book:
-        if isDeleting:
-            newObjectData = [newObject.getName(), newObject.getISBN(), newObject.getAuthor(),
-                             newObject.getDate(), newObject.getPublisher(),
-                             newObject.getPagesNumber(), newObject.getCoverType()]
-            insertFields(objectData, newObjectData)
         data["books"].append(
             {
                 "name": objectData[0].get(),
@@ -109,10 +114,6 @@ def addItem(newObject, objectData, masterFrame, messageRow, isDeleting=False):
             }
         )
     elif type(newObject) is Borrower:
-        if isDeleting:
-            newObjectData = [newObject.getID(), newObject.getName(), newObject.getAddress(),
-                             newObject.getISBN(), newObject.getBorrowDate(), newObject.getReturnDate()]
-            insertFields(objectData, newObjectData)
         data["borrowers"].append(
             {
                 "id": objectData[0].get(),
@@ -275,7 +276,7 @@ def displayItem(itemType, objectData, masterFrame, messageRow):
         isName (bool, optional): Specify if first argument is name or not. Defaults to False.
     """
     item = None
-    searchKeyword, isName = captureData(objectData)
+    searchKeyword, isName = captureData(itemType, objectData)
     if itemType == type(Member()):
         item = searchPerson(searchKeyword, "members", isName)
     elif itemType == type(Borrower()):
@@ -307,7 +308,7 @@ def deleteItem(itemType, objectData, masterFrame, messageRow):
     # check JSON file existence:
     data = checkFileExistence()
 
-    searchKeyword, isName = captureData(objectData)
+    searchKeyword, isName = captureData(itemType, objectData)
 
     if itemType == type(Member()):
         itemType = "members"
@@ -345,7 +346,7 @@ def updateItem(itemType, objectData, masterFrame, messageRow):
     # check JSON file existence:
     data = checkFileExistence()
 
-    searchKeyword, isName = captureData(objectData)
+    searchKeyword, isName = captureData(itemType, objectData)
     newItem = captureFullData(objectData)
 
     itemToBeDeleted = deleteItem(itemType, objectData, masterFrame, messageRow)
@@ -353,17 +354,30 @@ def updateItem(itemType, objectData, masterFrame, messageRow):
         addItem(newItem, objectData, masterFrame, messageRow, isDeleting=True)
         print("Data is up-to-date.")
 
-def captureData(objectData):
+def captureData(itemType, objectData):
     # check JSON file existence:
     data = checkFileExistence()
 
-    for member in data["members"]:
-        if objectData[0].get() == member["id"]:
-            searchKeyword = objectData[0].get()
+    if itemType == type(Member()):
+        itemType = "members"
+        fields = ["id", "name"]
+        fieldPlace = [0, 1]
+    elif itemType == type(Borrower()):
+        itemType = "borrowers"
+        fields = ["id", "name"]
+        fieldPlace = [0, 1]
+    elif itemType == type(Book()):
+        itemType = "books"
+        fields = ["isbn", "name"]
+        fieldPlace = [1, 0]
+
+    for item in data[itemType]:
+        if objectData[fieldPlace[0]].get() == item[fields[0]]:
+            searchKeyword = objectData[fieldPlace[0]].get()
             isName = False
             break
-        elif objectData[1].get() == member["name"]:
-            searchKeyword = objectData[1].get()
+        elif objectData[fieldPlace[1]].get() == item[fields[1]]:
+            searchKeyword = objectData[fieldPlace[1]].get()
             isName = True
             break
 
