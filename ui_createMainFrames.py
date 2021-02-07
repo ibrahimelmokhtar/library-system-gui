@@ -9,6 +9,10 @@ PADDING_X = 10
 
 def createButtons(masterFrame, objectData, itemClass, buttonText, lastInnerRow, messageRow):
     itemType = type(itemClass)
+    clearAllBtn = tk.Button(master=masterFrame, text="Clear Fields", width=15,
+                                command=partial(clearFields, objectData))
+    clearAllBtn.grid(row=lastInnerRow, column=0, pady=(PADDING_Y, 0))
+
     functionText = "Add " + buttonText
     addItemBtn = tk.Button(master=masterFrame, text=functionText, width=15,
                                 command=partial(addItem, itemClass, objectData, masterFrame, messageRow))
