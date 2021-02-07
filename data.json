@@ -52,6 +52,15 @@
       "publisher": "Anchor",
       "pages_number": 489,
       "cover_type": "Paperback"
+    },
+    {
+      "name": "book 1",
+      "isbn": "12345",
+      "author": "mokhtar",
+      "publication_date": "2020-05-12",
+      "publisher": "house",
+      "pages_number": "102",
+      "cover_type": "soft"
     }
   ],
   "borrowers": [
@@ -70,6 +79,14 @@
       "isbn": "0439358078",
       "borrow_date": "2021-01-10",
       "return_date": "2021-02-12"
+    },
+    {
+      "id": "14p8195",
+      "name": "Ibrahim El-Mokhtar",
+      "address": "Alexandria, Egypt",
+      "isbn": "12345",
+      "borrow_date": "2021-01-11",
+      "return_date": "2021-02-15"
     }
   ]
 }

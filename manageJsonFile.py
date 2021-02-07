@@ -41,6 +41,7 @@ def readFromFile():
             data = inputFile.read()
             data = json.loads(data)
     return data
+
 def saveIntoFile(data, objectData, masterFrame, messageRow):
     """Save JSON data into .json file.
 
@@ -64,11 +65,10 @@ def clearFields(objectData):
     for dataEntry in objectData:
         dataEntry.delete(0, 'end')
 
-def insertFields(objectData, foundObject):
+def insertFields(objectData, foundObjectData):
     clearFields(objectData)
-    objectData[0].insert(0, foundObject.getID())
-    objectData[1].insert(0, foundObject.getName())
-    objectData[2].insert(0, foundObject.getAddress())
+    for i in range(len(foundObjectData)):
+        objectData[i].insert(0, foundObjectData[i])
 
 def addItem(newObject, objectData, masterFrame, messageRow, isDeleting=False):
     """Add new Member, Book, or Borrower.
@@ -82,7 +82,8 @@ def addItem(newObject, objectData, masterFrame, messageRow, isDeleting=False):
     # append a (dict) object to specific list:
     if type(newObject) is Member:
         if isDeleting:
-            insertFields(objectData, newObject)
+            newObjectData = [newObject.getID(), newObject.getName(), newObject.getAddress()]
+            insertFields(objectData, newObjectData)
         data["members"].append(
             {
                 "id": objectData[0].get(),
@@ -91,32 +92,40 @@ def addItem(newObject, objectData, masterFrame, messageRow, isDeleting=False):
             }
         )
     elif type(newObject) is Book:
-        bookObject = newObject
+        if isDeleting:
+            newObjectData = [newObject.getName(), newObject.getISBN(), newObject.getAuthor(),
+                             newObject.getDate(), newObject.getPublisher(),
+                             newObject.getPagesNumber(), newObject.getCoverType()]
+            insertFields(objectData, newObjectData)
         data["books"].append(
             {
-                "name": bookObject.getName(),
-                "isbn": bookObject.getISBN(),
-                "author": bookObject.getAuthor(),
-                "publication_date": str(bookObject.getDate()),
-                "publisher": bookObject.getPublisher(),
-                "pages_number": bookObject.getPagesNumber(),
-                "cover_type": bookObject.getCoverType()
+                "name": objectData[0].get(),
+                "isbn": objectData[1].get(),
+                "author": objectData[2].get(),
+                "publication_date": objectData[3].get(),
+                "publisher": objectData[4].get(),
+                "pages_number": objectData[5].get(),
+                "cover_type": objectData[6].get()
             }
         )
     elif type(newObject) is Borrower:
-        borrowerObject = newObject
+        if isDeleting:
+            newObjectData = [newObject.getID(), newObject.getName(), newObject.getAddress(),
+                             newObject.getISBN(), newObject.getBorrowDate(), newObject.getReturnDate()]
+            insertFields(objectData, newObjectData)
         data["borrowers"].append(
             {
-                "id": borrowerObject.getID(),
-                "name": borrowerObject.getName(),
-                "address": borrowerObject.getAddress(),
-                "isbn": borrowerObject.getISBN(),
-                "borrow_date": str(borrowerObject.getBorrowDate()),
-                "return_date": str(borrowerObject.getReturnDate())
+                "id": objectData[0].get(),
+                "name": objectData[1].get(),
+                "address": objectData[2].get(),
+                "isbn": objectData[3].get(),
+                "borrow_date": objectData[4].get(),
+                "return_date": objectData[5].get()
             }
         )
     else:
         print("Invalid Object!\n")
+        displayMessage(masterFrame, messageRow, ERROR_MESSAGE, "red")
 
     # save into JSON file:
     saveIntoFile(data, objectData, masterFrame, messageRow)
@@ -225,6 +234,7 @@ def displayFullList(listType, masterFrame, messageRow):
         convertTo = type(Book())
     else:
         print("Invalid Object!\n")
+        displayMessage(masterFrame, messageRow, ERROR_MESSAGE, "red")
 
     # create new window to display data:
     displayWindow = tk.Tk()
@@ -274,6 +284,7 @@ def displayItem(itemType, objectData, masterFrame, messageRow):
         item = searchBook(searchKeyword, isName)
     else:
         print("Invalid Object!\n")
+        displayMessage(masterFrame, messageRow, ERROR_MESSAGE, "red")
 
     if item:
         insertFields(objectData, item)
@@ -312,6 +323,7 @@ def deleteItem(itemType, objectData, masterFrame, messageRow):
         itemToBeDeleted = searchBook(searchKeyword, isName)
     else:
         print("Invalid Object!\n")
+        displayMessage(masterFrame, messageRow, ERROR_MESSAGE, "red")
 
     # check the type of returned item: (to validate that it exists)
     if type(itemToBeDeleted) != convertTo:
