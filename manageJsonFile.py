@@ -226,11 +226,33 @@ def displayFullList(listType, masterFrame):
     else:
         print("Invalid Object!\n")
 
+    # create new window to display data:
+    displayWindow = tk.Tk()
+    window_width = displayWindow.winfo_screenwidth()
+    window_height = displayWindow.winfo_screenheight()
+    displayWindow.geometry("%dx%d" % (window_width/2, window_height/2))
+    displayWindow.title("Members' Full List")
 
+    frameRow = 0
     for item in data[objectType]:
+        itemFrame = tk.Frame(master=displayWindow, relief=tk.RIDGE, borderwidth=5)
+        itemFrame.grid(row=frameRow, column=0, padx=(10, 10), pady=(10, 0))
+
+        tk.Label(master=itemFrame, text="Member's Data",
+                 font="Verdana 10 underline bold").grid(row=0, column=1)
+        tk.Label(master=itemFrame, text="ID: ").grid(row=1, column=0)
+        tk.Label(master=itemFrame, text=item["id"]).grid(row=1, column=1)
+
+        tk.Label(master=itemFrame, text="Name: ").grid(row=2, column=0)
+        tk.Label(master=itemFrame, text=item["name"]).grid(row=2, column=1)
+
+        tk.Label(master=itemFrame, text="Address: ").grid(row=3, column=0)
+        tk.Label(master=itemFrame, text=item["address"]).grid(row=3, column=1)
+
         objectReturned = convertDictIntoObject(item, convertTo)
         print(objectReturned)
         count += 1
+        frameRow += 1
     displayMessage(masterFrame, DONE_MESSAGE, "green")
     return count
 
