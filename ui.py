@@ -51,7 +51,7 @@ displayFullMembersBtn = tk.Button(master=memberFrame, text="Display Full List", 
 displayFullMembersBtn.grid(row=6, column=0, pady=(PADDING_Y, PADDING_Y))
 
 updateMemberBtn = tk.Button(master=memberFrame, text="Update Member", width=15,
-                               command=partial(displayItem, type(Member()), memberFrame))
+                               command=partial(updateItem, type(Member()), memberData, memberFrame))
 updateMemberBtn.grid(row=6, column=1, pady=(PADDING_Y, PADDING_Y))
 
 displayMemberBtn = tk.Button(master=memberFrame, text="Display Member", width=15,

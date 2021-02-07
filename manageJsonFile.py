@@ -307,21 +307,37 @@ def deleteItem(itemType, objectData, masterFrame):
         addObject(item, objectData, masterFrame, isDeleting=True)
     return itemToBeDeleted
 
-def updateItem(searchKeyword, itemType, newItem, masterFrame, isName=False):
+def updateItem(itemType, objectData, masterFrame):
     # check JSON file existence:
     data = checkFileExistence()
 
-    itemToBeDeleted = deleteItem(searchKeyword, itemType, isName)
+    searchKeyword, isName = captureData(objectData)
+    newItem = captureFullData(objectData)
+
+    itemToBeDeleted = deleteItem(itemType, objectData, masterFrame)
     if type(itemToBeDeleted) != False:
-        addObject(newItem, masterFrame)
+        addObject(newItem, objectData, masterFrame, isDeleting=True)
         print("Data is up-to-date.")
 
 def captureData(objectData):
-    if len(objectData[0].get()) > 0:
-        searchKeyword = objectData[0].get()
-        isName = False
-    else:
-        searchKeyword = objectData[1].get()
-        isName = True
+    # check JSON file existence:
+    data = checkFileExistence()
+
+    for member in data["members"]:
+        if objectData[0].get() == member["id"]:
+            searchKeyword = objectData[0].get()
+            isName = False
+            break
+        elif objectData[1].get() == member["name"]:
+            searchKeyword = objectData[1].get()
+            isName = True
+            break
 
     return searchKeyword, isName
+
+def captureFullData(objectData):
+    newMemberID = objectData[0].get()
+    newMemberName = objectData[1].get()
+    newMemberAddress = objectData[2].get()
+
+    return Member(newMemberID, newMemberName, newMemberAddress)
