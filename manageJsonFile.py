@@ -242,28 +242,76 @@ def displayFullList(listType, masterFrame, messageRow):
     window_width = displayWindow.winfo_screenwidth()
     window_height = displayWindow.winfo_screenheight()
     displayWindow.geometry("%dx%d" % (window_width/2, window_height/2))
-    displayWindow.title("Members' Full List")
+    titleText = objectType.capitalize()
+    displayWindow.title("{}' Full List".format(titleText))
 
-    frameRow = 0
+    frameRow = 1
     for item in data[objectType]:
         itemFrame = tk.Frame(master=displayWindow, relief=tk.RIDGE, borderwidth=5)
         itemFrame.grid(row=frameRow, column=0, padx=(10, 10), pady=(10, 0))
 
-        tk.Label(master=itemFrame, text="Member's Data",
+        tk.Label(master=itemFrame, text="{}'s Data".format(titleText[:-1]),
                  font="Verdana 10 underline bold").grid(row=0, column=1)
-        tk.Label(master=itemFrame, text="ID: ").grid(row=1, column=0)
-        tk.Label(master=itemFrame, text=item["id"]).grid(row=1, column=1)
 
-        tk.Label(master=itemFrame, text="Name: ").grid(row=2, column=0)
-        tk.Label(master=itemFrame, text=item["name"]).grid(row=2, column=1)
+        if listType == type(Member()):
+            tk.Label(master=itemFrame, text="ID: ").grid(row=1, column=0)
+            tk.Label(master=itemFrame, text=item["id"]).grid(row=1, column=1)
 
-        tk.Label(master=itemFrame, text="Address: ").grid(row=3, column=0)
-        tk.Label(master=itemFrame, text=item["address"]).grid(row=3, column=1)
+            tk.Label(master=itemFrame, text="Name: ").grid(row=2, column=0)
+            tk.Label(master=itemFrame, text=item["name"]).grid(row=2, column=1)
+
+            tk.Label(master=itemFrame, text="Address: ").grid(row=3, column=0)
+            tk.Label(master=itemFrame, text=item["address"]).grid(row=3, column=1)
+
+        elif listType == type(Book()):
+            tk.Label(master=itemFrame, text="Name: ").grid(row=1, column=0)
+            tk.Label(master=itemFrame, text=item["name"]).grid(row=1, column=1)
+
+            tk.Label(master=itemFrame, text="ISBN: ").grid(row=2, column=0)
+            tk.Label(master=itemFrame, text=item["isbn"]).grid(row=2, column=1)
+
+            tk.Label(master=itemFrame, text="Author: ").grid(row=3, column=0)
+            tk.Label(master=itemFrame, text=item["author"]).grid(row=3, column=1)
+
+            tk.Label(master=itemFrame, text="Publication Date: ").grid(row=4, column=0)
+            tk.Label(master=itemFrame, text=item["publication_date"]).grid(row=4, column=1)
+
+            tk.Label(master=itemFrame, text="Publisher: ").grid(row=5, column=0)
+            tk.Label(master=itemFrame, text=item["publisher"]).grid(row=5, column=1)
+
+            tk.Label(master=itemFrame, text="Pages Number: ").grid(row=6, column=0)
+            tk.Label(master=itemFrame, text=item["pages_number"]).grid(row=6, column=1)
+
+            tk.Label(master=itemFrame, text="Cover Type: ").grid(row=7, column=0)
+            tk.Label(master=itemFrame, text=item["cover_type"]).grid(row=7, column=1)
+
+        elif listType == type(Borrower()):
+            tk.Label(master=itemFrame, text="ID: ").grid(row=1, column=0)
+            tk.Label(master=itemFrame, text=item["id"]).grid(row=1, column=1)
+
+            tk.Label(master=itemFrame, text="Name: ").grid(row=2, column=0)
+            tk.Label(master=itemFrame, text=item["name"]).grid(row=2, column=1)
+
+            tk.Label(master=itemFrame, text="Address: ").grid(row=3, column=0)
+            tk.Label(master=itemFrame, text=item["address"]).grid(row=3, column=1)
+
+            tk.Label(master=itemFrame, text="ISBN: ").grid(row=4, column=0)
+            tk.Label(master=itemFrame, text=item["isbn"]).grid(row=4, column=1)
+
+            tk.Label(master=itemFrame, text="Borrow Date: ").grid(row=5, column=0)
+            tk.Label(master=itemFrame, text=item["borrow_date"]).grid(row=5, column=1)
+
+            tk.Label(master=itemFrame, text="Return Date: ").grid(row=6, column=0)
+            tk.Label(master=itemFrame, text=item["return_date"]).grid(row=6, column=1)
 
         objectReturned = convertDictIntoObject(item, convertTo)
         print(objectReturned)
         count += 1
         frameRow += 1
+
+    tk.Label(master=displayWindow, text="Total: {}".format(count),
+                 font="Verdana 15 underline bold").grid(row=0, column=1)
+
     displayMessage(masterFrame, messageRow, DONE_MESSAGE, "green")
     return count
 
