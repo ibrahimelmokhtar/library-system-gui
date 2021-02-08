@@ -4,7 +4,6 @@ from ui_createMainFrames import *
 # create window:
 window = tk.Tk()
 
-
 # start window at full screen size:
 window_width = window.winfo_screenwidth()
 window_height = window.winfo_screenheight()
