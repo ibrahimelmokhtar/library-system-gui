@@ -23,7 +23,7 @@
       "author": "Suzanne Collins",
       "publication_date": "2008-09-14",
       "publisher": "Scholastic Press",
-      "pages_number": 374,
+      "pages_number": "374",
       "cover_type": "Hardcover"
     },
     {
@@ -32,7 +32,7 @@
       "author": "J.K. Rowling",
       "publication_date": "2003-06-21",
       "publisher": "Scholastic Inc.",
-      "pages_number": 870,
+      "pages_number": "870",
       "cover_type": "Paperback"
     },
     {
@@ -41,7 +41,7 @@
       "author": "George Orwell",
       "publication_date": "1945-08-17",
       "publisher": "Signet Classics",
-      "pages_number": 141,
+      "pages_number": "141",
       "cover_type": "Mass Market Paperback"
     },
     {
@@ -50,17 +50,17 @@
       "author": "Dan Brown",
       "publication_date": "2003-03-18",
       "publisher": "Anchor",
-      "pages_number": 489,
+      "pages_number": "489",
       "cover_type": "Paperback"
     },
     {
-      "name": "book 1",
+      "name": "Book 1",
       "isbn": "12345",
-      "author": "mokhtar",
-      "publication_date": "2020-05-12",
-      "publisher": "house",
-      "pages_number": "102",
-      "cover_type": "soft"
+      "author": "Ibrahim El-Mokhtar",
+      "publication_date": "2020-11-07",
+      "publisher": "Mokhtar",
+      "pages_number": "202",
+      "cover_type": "Soft"
     }
   ],
   "borrowers": [
@@ -75,18 +75,10 @@
     {
       "id": "14p8195",
       "name": "Ibrahim El-Mokhtar",
-      "address": "Cairo, Egypt",
-      "isbn": "0439358078",
-      "borrow_date": "2021-01-10",
-      "return_date": "2021-02-12"
-    },
-    {
-      "id": "14p8195",
-      "name": "Ibrahim El-Mokhtar",
       "address": "Alexandria, Egypt",
       "isbn": "12345",
-      "borrow_date": "2021-01-11",
-      "return_date": "2021-02-15"
+      "borrow_date": "2021-01-20",
+      "return_date": "2021-02-10"
     }
   ]
 }

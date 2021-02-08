@@ -347,7 +347,7 @@ def updateItem(itemType, objectData, masterFrame, messageRow):
     data = checkFileExistence()
 
     searchKeyword, isName = captureData(itemType, objectData)
-    newItem = captureFullData(objectData)
+    newItem = captureFullData(itemType, objectData)
 
     itemToBeDeleted = deleteItem(itemType, objectData, masterFrame, messageRow)
     if type(itemToBeDeleted) != False:
@@ -383,9 +383,18 @@ def captureData(itemType, objectData):
 
     return searchKeyword, isName
 
-def captureFullData(objectData):
-    newMemberID = objectData[0].get()
-    newMemberName = objectData[1].get()
-    newMemberAddress = objectData[2].get()
+def captureFullData(itemType, objectData):
+    if itemType == type(Member()):
+        newItem = Member(objectData[0].get(), objectData[1].get(), objectData[2].get())
 
-    return Member(newMemberID, newMemberName, newMemberAddress)
+    elif itemType == type(Book()):
+        newItem = Book(objectData[0].get(), objectData[1].get(), objectData[2].get(),
+                       objectData[3].get(), objectData[4].get(), objectData[5].get(),
+                       objectData[6].get())
+
+    elif itemType == type(Borrower()):
+        newItem = Borrower(objectData[0].get(), objectData[1].get(), objectData[2].get(),
+                           objectData[3].get(), objectData[4].get(), objectData[5].get())
+
+
+    return newItem
