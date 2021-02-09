@@ -22,7 +22,15 @@ class Member():
         """
         return output.format(self.id, self.name, self.address)
 
-    def __eq__(self, other) :
+    def __eq__(self, other):
+        """Used to compare two objects.
+
+        Args:
+            other (object): object of Book type.
+
+        Returns:
+            bool: the result of the comparison.
+        """
         return self.__dict__ == other.__dict__
 
 # Setter and Getter functions:

@@ -19,4 +19,5 @@ createBooksFrame(window)
 # create borrowers' frame:
 createBorrowersFrame(window)
 
+# enter main loop:
 window.mainloop()

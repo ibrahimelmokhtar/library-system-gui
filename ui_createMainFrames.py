@@ -2,12 +2,23 @@ import tkinter as tk
 from manageJsonFile import *
 from functools import partial   # to pass function parameters within "command" in tkinter.Entry()
 
+# used constant variables:
 ENTRY_WIDTH = 50
 PADDING_Y = 10
 PADDING_X = 10
 
-
+# *********************************************************************
 def createButtons(masterFrame, objectData, itemClass, buttonText, lastInnerRow, messageRow):
+    """Create specific bundle of buttons.
+
+    Args:
+        masterFrame (): main window to display buttons on it.
+        objectData (): user input handler.
+        itemClass (class type): type of the item.
+        buttonText (string): text to be displayed on each button.
+        lastInnerRow (int): the starting place at which buttons will be displayed.
+        messageRow (int): the place to display the output message.
+    """
     itemType = type(itemClass)
     clearAllBtn = tk.Button(master=masterFrame, text="Clear Fields", width=15,
                                 command=partial(clearFields, objectData))
@@ -38,8 +49,12 @@ def createButtons(masterFrame, objectData, itemClass, buttonText, lastInnerRow, 
                                 command=partial(displayItem, itemType, objectData, masterFrame, messageRow))
     displayItemBtn.grid(row=lastInnerRow, column=2, pady=(PADDING_Y, PADDING_Y))
 
-
 def createMembersFrame(masterWindow):
+    """Create members' frame into main window.
+
+    Args:
+        masterWindow (): main window to display frames on it.
+    """
     # add members' frame:
     memberFrame = tk.Frame(master=masterWindow, relief=tk.RIDGE, borderwidth=5)
     memberFrame.grid(row=0, column=0, pady=(2*PADDING_Y, 0))
@@ -75,8 +90,12 @@ def createMembersFrame(masterWindow):
     itemClass = Member()
     createButtons(memberFrame, memberData, itemClass, buttonText, innerRow, messageRow)
 
-
 def createBooksFrame(masterWindow):
+    """Create books' frame into main window.
+
+    Args:
+        masterWindow (): main window to display frames on it.
+    """
     # add books' frame:
     bookFrame = tk.Frame(master=masterWindow, relief=tk.RIDGE, borderwidth=5)
     bookFrame.grid(row=1, column=0, pady=(2*PADDING_Y, 0))
@@ -133,8 +152,12 @@ def createBooksFrame(masterWindow):
     itemClass = Book()
     createButtons(bookFrame, bookData, itemClass, buttonText, innerRow, messageRow)
 
-
 def createBorrowersFrame(masterWindow):
+    """Create borrowers' frame into main window.
+
+    Args:
+        masterWindow (): main window to display frames on it.
+    """
     # add borrowers' frame:
     borrowerFrame = tk.Frame(master=masterWindow, relief=tk.RIDGE, borderwidth=5)
     borrowerFrame.grid(row=1, column=1,

@@ -39,7 +39,15 @@ class Book():
         return output.format(self.name, self.isbn, self.author, self.publication_date,
                              self.publisher, self.pages_number, self.cover_type)
 
-    def __eq__(self, other) :
+    def __eq__(self, other):
+        """Used to compare two objects.
+
+        Args:
+            other (object): object of Book type.
+
+        Returns:
+            bool: the result of the comparison.
+        """
         return self.__dict__ == other.__dict__
 
 

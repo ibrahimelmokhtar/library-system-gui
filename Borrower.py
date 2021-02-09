@@ -33,7 +33,15 @@ class Borrower(Member):
         return output.format(self.id, self.name, self.address,
                              self.isbn, self.borrow_date, self.return_date)
 
-    def __eq__(self, other) :
+    def __eq__(self, other):
+        """Used to compare two objects.
+
+        Args:
+            other (object): object of Borrower type.
+
+        Returns:
+            bool: the result of the comparison.
+        """
         return self.__dict__ == other.__dict__
 
 # Setter and Getter functions:
